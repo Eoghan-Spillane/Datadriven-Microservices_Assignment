@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+// The greeting service definition.
+service PokeData {
+  // Sends data from the file
+  rpc RequestPokemon (PokeRequest) returns (PokeResponse) {}
+}
+
+// How many lines are wanted.
+message PokeRequest {
+  int32 numberOfPokemon = 1;
+}
+
+// The response message containing the greetings
+message PokeResponse {
+  string Name = 1;
+  string Type1 = 2;
+  string Type2 = 3;
+  int32 HP = 4;
+  int32 Attack = 5;
+  int32 Defense = 6;
+  int32 Speed = 7;
+}

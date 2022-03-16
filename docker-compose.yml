@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  pokemon_server:
+    build:
+      context: .
+      dockerfile: dataset_server/pokemon_server.Dockerfile
+    ports:
+      - "50051:50051"
+  pokemon_client:
+    build:
+      context: .
+      dockerfile: dataset_client/pokemon_client.Dockerfile
+    depends_on:
+      - "pokemon_server"
+    command: ["./wait-for-it.sh", "pokemon_server:50051", "--", "python", "pokemon_client.py"]
