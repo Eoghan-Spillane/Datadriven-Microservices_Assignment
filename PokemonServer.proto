@@ -3,7 +3,7 @@ syntax = "proto3";
 // The greeting service definition.
 service PokeData {
   // Sends data from the file
-  rpc RequestPokemon (PokeRequest) returns (PokeResponse) {}
+  rpc RequestPokemon (PokeRequest) returns (stream PokeResponse) {}
 }
 
 // How many lines are wanted.

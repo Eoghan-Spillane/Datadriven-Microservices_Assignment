@@ -3,6 +3,7 @@ import pandas as pd
 import grpc
 import logging
 import random
+import time
 from concurrent import futures
 
 import PokemonServer_pb2
@@ -23,28 +24,30 @@ class PokemonServer(PokemonServer_pb2_grpc.PokeDataServicer):
     
 
     def __init__(self):
-        self.pokemon = cleanData()
-        self.PokeCount = 0
-        self.PokeMax = self.pokemon.shape[0]
+        self.pokemonData = cleanData()
+        self.PokeCount = self.pokemonData.shape[0]
 
     def RequestPokemon(self, request, context):
-        print("Recieved Request", flush= True)
-        pokemon = self.pokemon.iloc[self.PokeCount]
-
-
-
-        PokeResponse = PokemonServer_pb2.PokeResponse(
-            Name = str(pokemon[0]),
-            Type1 = str(pokemon[1]),
-            Type2 = str(pokemon[2]),
-            HP = int(pokemon[3]),
-            Attack = int(pokemon[4]),
-            Defense = int(pokemon[5]),
-            Speed = int(pokemon[6])
-        )
+        print("Recieved Pokemon Request", flush= True)
         
-        self.PokeCount = self.PokeCount + 1
-        return PokeResponse
+        # TODO
+        # Get next pokemon
+        for y in range(request.numberOfPokemon):
+            pokemon = self.pokemonData.iloc[y]
+
+            PokeResponse = PokemonServer_pb2.PokeResponse(
+                Name = str(pokemon[0]),
+                Type1 = str(pokemon[1]),
+                Type2 = str(pokemon[2]),
+                HP = int(pokemon[3]),
+                Attack = int(pokemon[4]),
+                Defense = int(pokemon[5]),
+                Speed = int(pokemon[6])
+            )
+            
+            # on average send 2 per second
+            time.sleep(random.uniform(0.3, 0.7))
+            yield PokeResponse
 
 
 def serve():

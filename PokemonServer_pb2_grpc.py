@@ -15,7 +15,7 @@ class PokeDataStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.RequestPokemon = channel.unary_unary(
+        self.RequestPokemon = channel.unary_stream(
                 '/PokeData/RequestPokemon',
                 request_serializer=PokemonServer__pb2.PokeRequest.SerializeToString,
                 response_deserializer=PokemonServer__pb2.PokeResponse.FromString,
@@ -36,7 +36,7 @@ class PokeDataServicer(object):
 
 def add_PokeDataServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'RequestPokemon': grpc.unary_unary_rpc_method_handler(
+            'RequestPokemon': grpc.unary_stream_rpc_method_handler(
                     servicer.RequestPokemon,
                     request_deserializer=PokemonServer__pb2.PokeRequest.FromString,
                     response_serializer=PokemonServer__pb2.PokeResponse.SerializeToString,
@@ -63,7 +63,7 @@ class PokeData(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/PokeData/RequestPokemon',
+        return grpc.experimental.unary_stream(request, target, '/PokeData/RequestPokemon',
             PokemonServer__pb2.PokeRequest.SerializeToString,
             PokemonServer__pb2.PokeResponse.FromString,
             options, channel_credentials,

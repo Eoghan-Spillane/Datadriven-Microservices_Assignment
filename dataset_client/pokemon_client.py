@@ -10,19 +10,15 @@ import random
 import time
 
 def run():
-        channel = grpc.insecure_channel('pokemon_server:50051')
-        stub = PokemonServer_pb2_grpc.PokeDataStub(channel)
-        
-        while True:
-            print("Make Request", flush = True)
-
-            pokemon = stub.RequestPokemon(PokemonServer_pb2.PokeRequest(numberOfPokemon = int(1)))
-            try:
-                print(pokemon.Name + " - " +  str(pokemon.HP), flush = True)
-            except Exception as ex:
-                print(ex)
+        with grpc.insecure_channel('pokemon_server:50051') as channel:
+            stub = PokemonServer_pb2_grpc.PokeDataStub(channel)
             
-            time.sleep(random.uniform(0.3, 0.7))
+            while True:
+                for pokemon in stub.RequestPokemon(PokemonServer_pb2.PokeRequest(numberOfPokemon = int(1))):
+                    try:
+                        print(pokemon.Name + " - " +  str(pokemon.HP), flush = True)
+                    except Exception as ex:
+                        print(ex)
 
 
 
