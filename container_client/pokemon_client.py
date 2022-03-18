@@ -2,12 +2,8 @@ from __future__ import print_function
 import logging
 
 import grpc
-
 import PokemonServer_pb2
 import PokemonServer_pb2_grpc
-
-import random 
-import time
 
 def run():
         with grpc.insecure_channel('pokemon_server:50051') as channel:

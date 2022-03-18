@@ -22,18 +22,17 @@ def cleanData():
 
 class PokemonServer(PokemonServer_pb2_grpc.PokeDataServicer):
     
-
     def __init__(self):
         self.pokemonData = cleanData()
         self.PokeCount = self.pokemonData.shape[0]
 
     def RequestPokemon(self, request, context):
-        print("Recieved Pokemon Request", flush= True)
+        print("Recieved -> RequestPokemon: " + str(request.numberOfPokemon), flush= True)
         
-        # TODO
-        # Get next pokemon
-        for y in range(request.numberOfPokemon):
-            pokemon = self.pokemonData.iloc[y]
+        # When using yield the place in the loop is remembered.
+        for poke in range(self.PokeCount):
+            print("Recieved -> In Loop ")
+            pokemon = self.pokemonData.iloc[poke]
 
             PokeResponse = PokemonServer_pb2.PokeResponse(
                 Name = str(pokemon[0]),
