@@ -14,3 +14,11 @@ services:
     depends_on:
       - "pokemon_server"
     command: ["./wait-for-it.sh", "pokemon_server:50051", "--", "python", "pokemon_client.py"]
+  pokemon_website:
+    build:
+      context: .
+      dockerfile: container_website/pokemon_website.Dockerfile
+    ports:
+      - "8080:5000"
+    depends_on:
+      - "pokemon_client"     

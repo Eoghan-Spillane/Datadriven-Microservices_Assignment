@@ -6,17 +6,15 @@ import PokemonServer_pb2
 import PokemonServer_pb2_grpc
 
 def run():
-        with grpc.insecure_channel('pokemon_server:50051') as channel:
-            stub = PokemonServer_pb2_grpc.PokeDataStub(channel)
-            
-            while True:
-                for pokemon in stub.RequestPokemon(PokemonServer_pb2.PokeRequest(numberOfPokemon = int(1))):
-                    try:
-                        print(pokemon.Name + " - " +  str(pokemon.HP), flush = True)
-                    except Exception as ex:
-                        print(ex)
-
-
+        channel = grpc.insecure_channel('pokemon_server:50051')
+        stub = PokemonServer_pb2_grpc.PokeDataStub(channel)
+        
+        while True:
+            for pokemon in stub.RequestPokemon(PokemonServer_pb2.PokeRequest(numberOfPokemon = int(1))):
+                try:
+                    print(pokemon.Name + " - " +  str(pokemon.HP), flush = True)
+                except Exception as ex:
+                    print(ex)
 
 if __name__ == '__main__':
     logging.basicConfig()
