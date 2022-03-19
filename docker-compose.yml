@@ -21,4 +21,4 @@ services:
     ports:
       - "8080:5000"
     depends_on:
-      - "pokemon_client"     
+      - "pokemon_client"

@@ -1,3 +1,4 @@
+from numpy import append
 import pandas as pd
 
 import grpc
@@ -29,9 +30,19 @@ class PokemonServer(PokemonServer_pb2_grpc.PokeDataServicer):
     def RequestPokemon(self, request, context):
         print("Recieved -> RequestPokemon: " + str(request.numberOfPokemon), flush= True)
         
+        # Randomise the pokemon Order
+        shuffled_order = []
+        for x in range(self.PokeCount): 
+            shuffled_order.append(x)
+
+        random.shuffle(shuffled_order)
+
         # When using yield the place in the loop is remembered.
-        for poke in range(self.PokeCount):
-            print("Recieved -> In Loop ")
+        for poke in shuffled_order:
+            # on average stream 2 per second
+            time.sleep(random.uniform(0.35, 0.65))
+            print("Server -> Response")
+            
             pokemon = self.pokemonData.iloc[poke]
 
             PokeResponse = PokemonServer_pb2.PokeResponse(
@@ -44,8 +55,6 @@ class PokemonServer(PokemonServer_pb2_grpc.PokeDataServicer):
                 Speed = int(pokemon[6])
             )
             
-            # on average send 2 per second
-            time.sleep(random.uniform(0.3, 0.7))
             yield PokeResponse
 
 
@@ -58,5 +67,6 @@ def serve():
 
 
 if __name__ == '__main__':
+    # Needed to print out
     logging.basicConfig()
     serve()
