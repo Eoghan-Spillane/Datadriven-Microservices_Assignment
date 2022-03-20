@@ -14,6 +14,10 @@ services:
     depends_on:
       - "pokemon_server"
     command: ["./wait-for-it.sh", "pokemon_server:50051", "--", "python", "pokemon_client.py"]
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
   pokemon_website:
     build:
       context: .
@@ -21,4 +25,4 @@ services:
     ports:
       - "8080:5000"
     depends_on:
-      - "pokemon_client"
+      - "redis"

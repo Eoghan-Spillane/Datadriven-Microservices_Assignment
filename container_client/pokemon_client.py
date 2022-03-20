@@ -5,6 +5,7 @@ from collections import Counter
 import grpc
 import time
 import random
+import redis
 import PokemonServer_pb2
 import PokemonServer_pb2_grpc
 
@@ -27,7 +28,6 @@ def run():
 
             for pokemon in stub.RequestPokemon(PokemonServer_pb2.PokeRequest(numberOfPokemon=int(1))):
                 # time.sleep(random.uniform(0.35, 0.65))  # On Average 2 records per second
-
                 # Convert to proper variable
                 pokemonData = [str(pokemon.Name), str(pokemon.Type1), str(pokemon.Type2), int(pokemon.HP), int(pokemon.Attack), int(pokemon.Defense), int(pokemon.Speed)]
 
@@ -38,7 +38,6 @@ def run():
 
                         if (time.time() - start_time) >= 180:    # If it's been 3 mins (180 Seconds) , remove one for every added type.
                             pokemon_types.pop(0)
-
                 mostCommonType = Counter(pokemon_types).most_common(1)[0][0]
             
                 # Average Pokemon HP
@@ -55,7 +54,17 @@ def run():
                 if pokemonData[3] + pokemonData[4] == toughestPokemon:
                     toughestPokemonName = pokemonData[0]
 
-
+                # Send Data to website
+                try:
+                    conn = redis.StrictRedis(host='redis', port=6379)
+                    conn.set("mostCommonType",  mostCommonType)
+                    conn.set("averageHP",  averageHP)
+                    conn.set("weakestAttack",  weakestAttack)
+                    conn.set("toughestPokemon",  toughestPokemon)
+                    conn.set("toughestPokemonName",  toughestPokemonName)
+                except Exception as ex:
+                    print("Error: ", ex, flush=True)
+                    
 if __name__ == '__main__':
     # Needed to print out
     logging.basicConfig()
