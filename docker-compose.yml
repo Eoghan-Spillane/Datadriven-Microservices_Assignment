@@ -1,27 +1,27 @@
 version: '3'
 
 services:
-  pokemon_server:
+  pokemon-server:
     build:
       context: .
-      dockerfile: container_server/pokemon_server.Dockerfile
+      dockerfile: container-server/pokemon-server.Dockerfile
     ports:
       - "50051:50051"
-  pokemon_client:
+  pokemon-client:
     build:
       context: .
-      dockerfile: container_client/pokemon_client.Dockerfile
+      dockerfile: container-client/pokemon-client.Dockerfile
     depends_on:
-      - "pokemon_server"
-    command: ["./wait-for-it.sh", "pokemon_server:50051", "--", "python", "pokemon_client.py"]
+      - "pokemon-server"
+    command: ["./wait-for-it.sh", "pokemon-server:50051", "--", "python", "pokemon-client.py"]
   redis:
     image: redis:alpine
     ports:
       - "6379:6379"
-  pokemon_website:
+  pokemon-website:
     build:
       context: .
-      dockerfile: container_website/pokemon_website.Dockerfile
+      dockerfile: container-website/pokemon-website.Dockerfile
     ports:
       - "8080:5000"
     depends_on:

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pokemon-website
+  name: pokemon-website
+spec:
+  selector:
+    app: pokemon-website
+  type: NodePort
+  ports:
+  - port: 5000
+    nodePort: 30000
+    protocol: TCP

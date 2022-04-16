@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-server-deploy
+spec:
+  replicas: 6
+  selector:
+    matchLabels:
+      app: pokemon-server
+  minReadySeconds: 6
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: pokemon-server
+    spec:
+      containers:
+      - name: pokemon-server
+        image: eoghanspillane/pokemonserver:latest
+        ports:
+        - containerPort: 50051

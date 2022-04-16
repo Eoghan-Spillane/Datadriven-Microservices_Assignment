@@ -17,7 +17,7 @@ import PokemonServer_pb2_grpc
 
 def run():
     # while True: Uncomment to have dataset start again
-        with grpc.insecure_channel('pokemon_server:50051') as channel:
+        with grpc.insecure_channel('pokemon-server:50051') as channel:
             stub = PokemonServer_pb2_grpc.PokeDataStub(channel)
             allPokemon = []             # Contains a list of pokemone for the website
             pokemon_types = []          # For Tracking most common type over time

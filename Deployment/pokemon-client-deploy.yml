@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pokemon-client-deploy
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: pokemon-client
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: pokemon-client
+    spec:
+      containers:
+      - name: pokemon-client
+        image: eoghanspillane/pokemonclient:latest
