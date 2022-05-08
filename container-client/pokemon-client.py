@@ -86,12 +86,11 @@ def run():
                     else:
                         conn.set("rollingStatus", "Not 3 minues yet")
 
-                    print("Sending Analytics", flush=True)
+                    print("Sending Pokemon Analytics", flush=True)
                     
                 except Exception as ex:
                     print("Error: ", ex, flush=True)
                     
 if __name__ == '__main__':
-    # Needed to print out
     logging.basicConfig()
     run()

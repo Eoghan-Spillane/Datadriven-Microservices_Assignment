@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: pokemon-client-deploy
 spec:
-  replicas: 10
+  replicas: 1
   selector:
     matchLabels:
       app: pokemon-client
@@ -20,4 +20,4 @@ spec:
     spec:
       containers:
       - name: pokemon-client
-        image: eoghanspillane/pokemonclient:latest
+        image: eoghanspillane/pokemon-client:newest

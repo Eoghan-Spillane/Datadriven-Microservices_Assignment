@@ -1,12 +1,29 @@
 version: '3'
 
 services:
+  digimon-server:
+    build:
+      context: .
+      dockerfile: container-server-digimon/digimon-server.Dockerfile
+    ports:
+      - "50052:50052"
+  
   pokemon-server:
     build:
       context: .
       dockerfile: container-server/pokemon-server.Dockerfile
     ports:
       - "50051:50051"
+  
+  # One client process data on port 50052 and one on 50051 
+  digimon-client:
+    build:
+      context: .
+      dockerfile: container-client-digimon/digimon-client.Dockerfile
+    depends_on:
+      - "digimon-server"
+    command: ["./wait-for-it.sh", "digimon-server:50052", "--", "python", "digimon-client.py"]
+  
   pokemon-client:
     build:
       context: .
@@ -14,6 +31,9 @@ services:
     depends_on:
       - "pokemon-server"
     command: ["./wait-for-it.sh", "pokemon-server:50051", "--", "python", "pokemon-client.py"]
+  
+  
+  # Both clients store data on redis
   redis:
     image: redis:alpine
     ports:

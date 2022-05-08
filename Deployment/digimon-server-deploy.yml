@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: digimon-server-deploy
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: digimon-server
+  minReadySeconds: 6
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: digimon-server
+    spec:
+      containers:
+      - name: digimon-server
+        image: eoghanspillane/digimon-server:newest
+        ports:
+        - containerPort: 50052

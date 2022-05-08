@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: pokemon-website-deploy
 spec:
-  replicas: 4
+  replicas: 8
   selector:
     matchLabels:
       app: pokemon-website
@@ -20,6 +20,6 @@ spec:
     spec:
       containers:
       - name: pokemon-website
-        image: eoghanspillane/pokemonwebsite:latest
+        image: eoghanspillane/pokemon-website:newest
         ports:
         - containerPort: 5000

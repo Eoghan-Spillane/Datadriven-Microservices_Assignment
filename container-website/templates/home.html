@@ -54,12 +54,12 @@
         <h1 style="text-align: center; width: 100%; background-color: coral;">Please refresh page to see updates (Auto refreshs every 15 seconds)</h1>
         <div class = "row">
             <div class= "column left">
-                <h2>Rolling Metric</h2>
+                <h2>Pokemon Rolling Metric</h2>
                 <p>Most Common Type of Pokemon over 3 minutes period:      <b>{{mostCommonType}}</b></p>
                 <p>Pokemon Type Rolling Status:     <b>{{rollingStatus}}</b></p>
                 <p>Current amount of types from each pokemon in list (Two types per pokemon):     <b>{{mostCommonTypeLen}}</b></p>
                 <br>
-                <h3>Other Metrics:</h3>
+                <h3>Pokemon Metrics:</h3>
                 <table>
                     <tr>
                         <th>Average HP of Pokemon  </th>
@@ -79,6 +79,26 @@
                     </tr>    
                 </table>
                 <a href="https://www.pokemon.com/us/pokedex/{{toughestPokemonName}}" target="_blank">Open Pokedex Entry for {{toughestPokemonName}}</a>
+                <br>
+                <h3>Digimon Metrics:</h3>
+                <table>
+                    <tr>
+                        <th>Average HP of Digimon  </th>
+                        <td>  {{D_averageHP}}  </td>
+                    </tr>
+                    <tr>
+                        <th>Weakest attack of all Digimon so far </th>
+                        <td>  {{D_weakestAttack}}  </td>
+                    </tr>
+                    <tr>
+                        <th>Strongest attack of all Digimon so far    </th>
+                        <td>  {{D_strongestAttack}}  </td>
+                    </tr>
+                    <tr>
+                        <th>Toughest Digimon (HP + Attack)  </th>
+                        <td>  {{D_toughestPokemonName}} with a score of {{D_toughestPokemon}} </td>
+                    </tr>    
+                </table>
                 <br>
                 <h3>Graph</h3>
                 <div id="myPlot" style="width: 100%;"></div>
@@ -101,7 +121,7 @@
                     var layout = {
                       xaxis: {range: [0, 270], title: "Health Points"},
                       yaxis: {range: [0, 200], title: "Attack Strength"},  
-                      title: "Toughness of all Pokemon"
+                      title: "Toughness of all Pokemon & Digimon"
                     };
                     
                     // Display using Plotly

@@ -5,8 +5,8 @@ metadata:
   labels:
     app: pokemon-server
 spec:
+  selector:
+    app: pokemon-server
   ports:
   - port: 50051
     protocol: TCP
-  selector:
-    app: pokemon-server
